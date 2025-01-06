@@ -1,11 +1,9 @@
 package br.douglas.dogi.dogi.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-import java.util.Objects;
+import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 public class Cliente {
@@ -14,10 +12,29 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private String sobrenome;
     private String cpf;
     private String telefone;
     private String email;
-    private String endereco;
+    private String senha;
+    private LocalDate dataCadastro;
+    private LocalDate dataAtualizacao;
+
+    public Cliente() {
+    }
+
+    public Cliente(Long id, String nome, String cpf, String telefone, String email, String senha, LocalDate dataCadastro, String sobrenome, LocalDate dataAtualizacao) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
+        this.dataCadastro = dataCadastro;
+        this.sobrenome = sobrenome;
+        this.dataAtualizacao = dataAtualizacao;
+
+    }
 
     public Long getId() {
         return id;
@@ -59,35 +76,35 @@ public class Cliente {
         this.email = email;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
-    public Cliente() {
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
     }
 
-    public Cliente(Long id, String nome, String cpf, String telefone, String email, String endereco) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.email = email;
-        this.endereco = endereco;
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Cliente cliente = (Cliente) o;
-        return Objects.equals(id, cliente.id);
+    public String getSobrenome() {
+        return sobrenome;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+
+    public LocalDate getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(LocalDate dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 }
