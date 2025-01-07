@@ -1,9 +1,14 @@
 package br.douglas.dogi.dogi.services;
 
+import br.douglas.dogi.dogi.dtos.AnimalDTO;
+import br.douglas.dogi.dogi.dtos.AnimalResumoDTO;
 import br.douglas.dogi.dogi.dtos.ClienteDTO;
 import br.douglas.dogi.dogi.dtos.ClienteInsertDTO;
+import br.douglas.dogi.dogi.mappers.AnimalMapper;
 import br.douglas.dogi.dogi.mappers.ClienteMapper;
+import br.douglas.dogi.dogi.models.Animal;
 import br.douglas.dogi.dogi.models.Cliente;
+import br.douglas.dogi.dogi.repositories.AnimalRepository;
 import br.douglas.dogi.dogi.repositories.ClienteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +29,7 @@ public class ClienteService {
     @Autowired
     private ClienteMapper clienteMapper;
 
+
     @Transactional
     public ClienteDTO salvar(ClienteInsertDTO clienteInsertDTO) {
 
@@ -31,15 +37,29 @@ public class ClienteService {
         Cliente cliente = new Cliente();
 
         cliente.setNome(clienteInsertDTO.getNome());
-        cliente.setSobrenome(clienteInsertDTO.getNome());
+        cliente.setSobrenome(clienteInsertDTO.getSobrenome());
         cliente.setEmail(clienteInsertDTO.getEmail());
         cliente.setTelefone(clienteInsertDTO.getTelefone());
         cliente.setCpf(clienteInsertDTO.getCpf());
         cliente.setSenha(clienteInsertDTO.getSenha());
         cliente.setDataCadastro(LocalDate.now());
+
+        if (clienteInsertDTO.getAnimais() != null) {
+            for (AnimalResumoDTO animalDTO : clienteInsertDTO.getAnimais()) {
+                Animal animal = new Animal();
+                animal.setNome(animalDTO.getNome());
+                animal.setEspecie(animalDTO.getEspecie());
+                animal.setRaca(animalDTO.getRaca());
+                animal.setIdade(animalDTO.getIdade());
+                animal.setSexo(animalDTO.getSexo());
+                animal.setCor(animalDTO.getCor());
+                animal.setPelagem(animalDTO.getPelagem());
+                animal.setCliente(cliente);
+                cliente.getAnimais().add(animal);
+            }
+        }
+
         Cliente clienteSalvo = clienteRepository.save(cliente);
-
-
         return clienteMapper.clienteParaClienteDTO(clienteSalvo);
     }
 
@@ -79,8 +99,6 @@ public class ClienteService {
     public ClienteDTO atualizar(Long id, ClienteInsertDTO clienteInsertDTO) {
 
         Cliente clienteExistente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-
 
         clienteExistente.setNome(clienteInsertDTO.getNome());
         clienteExistente.setSobrenome(clienteInsertDTO.getNome());

@@ -1,11 +1,15 @@
 package br.douglas.dogi.dogi.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "TB_CLIENTE")
 public class Cliente {
 
     @Id
@@ -19,6 +23,10 @@ public class Cliente {
     private String senha;
     private LocalDate dataCadastro;
     private LocalDate dataAtualizacao;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Animal> animais = new ArrayList<>();
 
     public Cliente() {
     }
@@ -106,5 +114,13 @@ public class Cliente {
 
     public void setDataAtualizacao(LocalDate dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public List<Animal> getAnimais() {
+        return animais;
+    }
+
+    public void setAnimais(List<Animal> animais) {
+        this.animais = animais;
     }
 }

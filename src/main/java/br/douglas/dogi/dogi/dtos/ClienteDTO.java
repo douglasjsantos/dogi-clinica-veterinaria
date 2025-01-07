@@ -2,6 +2,8 @@ package br.douglas.dogi.dogi.dtos;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClienteDTO {
 
@@ -11,6 +13,7 @@ public class ClienteDTO {
     private String telefone;
     private String email;
     private LocalDate dataCadastro;
+    private List<AnimalResumoDTO> animais = new ArrayList<>();
 
     public ClienteDTO() {
 
@@ -63,5 +66,21 @@ public class ClienteDTO {
 
     public void setDataCadastro(LocalDate dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+
+    public List<AnimalResumoDTO> getAnimais() {
+        return animais;
+    }
+
+    public void setAnimais(List<AnimalResumoDTO> animais) {
+        this.animais = animais;
     }
 }
